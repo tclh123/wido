@@ -4,7 +4,7 @@ from wido.client import client_with_access_token
 from wido.consts import WEIBO_TYPE_VIDEO
 
 # from wido.lib.text import get_urls_from_text
-from wido.lib.weibo import make_statuses
+from wido.models.utils import make_statuses
 
 
 class Timeline(object):
@@ -29,7 +29,7 @@ class Timeline(object):
             except Exception as e:
                 print repr(e)
 
-        make_statuses(r.statuses)
+        make_statuses(owner_access_token, r.statuses)
 
         return cls(owner_uid, owner_access_token, r)
 

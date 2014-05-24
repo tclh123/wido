@@ -6,7 +6,7 @@ from wido.models.whitelist import rule
 from wido.models.bi import Bi
 from wido.models.timeline import user_timeline
 
-from wido.lib.weibo import make_statuses
+from wido.models.utils import make_statuses
 
 
 class Home(object):
@@ -65,7 +65,7 @@ class Home(object):
         user_ids = user_ids[start:limit]
         # return user_timeline_batch(owner_access_token, user_ids)
         statuses = [t for uid in user_ids for t in user_timeline(owner_access_token, uid)]
-        make_statuses(statuses)
+        make_statuses(owner_access_token, statuses)
         return statuses
 
     @classmethod
@@ -76,5 +76,5 @@ class Home(object):
         # print len(user_ids), user_ids
         user_ids = user_ids[start:limit]
         statuses = [t for uid in user_ids for t in user_timeline(owner_access_token, uid)]
-        make_statuses(statuses)
+        make_statuses(owner_access_token, statuses)
         return statuses

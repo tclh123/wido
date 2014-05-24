@@ -56,6 +56,16 @@ def test_user_timeline():
     print r
 
 
+# note: broken
+def test_by_status():
+    r = client.suggestions.users.by_status.get(content="""
+    豆瓣 CODE 两年历程回顾：git 不是万能的，没有 review 是万万不能的 http://t.cn/8FOHQjc
+    """,
+                                               num=10)
+    print r
+
+
 if __name__ == '__main__':
     # test_home_timeline()
-    test_user_timeline()
+    # test_user_timeline()
+    test_by_status()

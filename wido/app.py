@@ -82,5 +82,5 @@ def video_url():
     owner_access_token  = request.args.get('owner_access_token', '2.007xjRoBZNmGKBf13ad83cd2fVtNOD')
     urls                = request.args.getlist('urls')
 
-    urls = VideoURL.expand(owner_access_token, urls)
-    return jsonify(urls=urls)
+    maps = VideoURL.expand(owner_access_token, urls)
+    return jsonify(maps=maps)

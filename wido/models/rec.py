@@ -3,8 +3,7 @@
 from wido.client import client_with_access_token
 
 from wido.models.timeline import user_timeline
-
-from wido.lib.weibo import make_statuses
+from wido.models.utils import make_statuses
 
 # from wido.models.whitelist import check
 
@@ -28,5 +27,5 @@ class Rec(object):
         uids = [u.uid for u in r[start:limit]]
 
         statuses = [t for uid in uids for t in user_timeline(owner_access_token, uid)]
-        make_statuses(statuses)
+        make_statuses(owner_access_token, statuses)
         return statuses

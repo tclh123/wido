@@ -39,10 +39,10 @@ def yixia(url):
     input: http://yixia.com/show/Rz0glRihYKKYDTOdxuN~iQ__.htm
     output: http://paikeimg.video.sina.com.cn/stream/Rz0glRihYKKYDTOdxuN~iQ__.mp4
     """
-    pattern = re.compile('http://yixia.com/show/(.*?).htm')
+    pattern = re.compile('http://(www\.)?yixia\.com/show/([^/]+)\.htm')
     match = pattern.search(url)
     if match:
-        id_ = match.group(1)
+        id_ = match.group(2)
         url = YIXIA_PATTERN % id_
         return url
     return None
@@ -65,9 +65,9 @@ def meipai(url):
 
 def resolve(url):
     """ 由视频页地址 解析到 视频源文件地址 """
-    if url.startswith('http://www.yixia.com'):
+    if url.startswith('http://www.yixia.com') or url.startswith('http://yixia.com'):
         return yixia(url)
-    elif url.startswith('http://www.meipai.com'):
+    elif url.startswith('http://www.meipai.com') or url.startswith('http://meipai.com'):
         return meipai(url)
 
     ret = wandoujia(url)
@@ -91,5 +91,8 @@ if __name__ == '__main__':
 
     assert resolve('http://bilibili.kankanews.com/video/av1120091/')
     assert resolve('http://www.meipai.com/media/12134948')
+
+    assert resolve('http://www.yixia.com/show/YDw1~-AUwhBjMXMot4~AhQ__.htm')
+    assert resolve('http://yixia.com/show/Rz0glRihYKKYDTOdxuN~iQ__.htm')
 
     print 'fine.'
