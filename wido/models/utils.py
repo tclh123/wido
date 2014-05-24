@@ -37,7 +37,7 @@ def make_statuses(owner_access_token, statuses_jsondict, is_expand=False):
         urls = f7(urls)
 
         if is_expand:
-            urls = [maps[url] for url in urls if url in maps]
+            urls = [maps['real_url'][url] for url in urls if url in maps]
 
         s['video_urls'] = urls
 

@@ -40,11 +40,20 @@ class VideoURL(object):
         dic = {}
         for d in rurls:
             if d.result:
-                ret = resolve(d.url_long)
-                if type(ret) is list:
-                    ret = ret[0]
-                dic[d.url_short] = ret
+                if d.type == 1:
+                    ret = resolve(d.url_long)
+                    if type(ret) is list:
+                        ret = ret[0]
+                    dic[d.url_short] = dict(real_url=ret,
+                                            is_video=d.type == 1,
+                                            is_broken=False)
+                else:
+                    dic[d.url_short] = dict(real_url=d.url_long,
+                                            is_video=d.type == 1,
+                                            is_broken=False)
             else:
-                dic[d.url_short] = ''
+                dic[d.url_short] = dict(real_url=None,
+                                        is_video=None,
+                                        is_broken=True)
 
         return dic
