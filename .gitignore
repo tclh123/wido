@@ -2,3 +2,7 @@
 *.pyc
 
 venv
+tmp
+
+
+access_token.bak
