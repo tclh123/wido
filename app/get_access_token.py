@@ -4,9 +4,7 @@
 from snspy import APIClient
 from snspy import SinaWeiboMixin
 
-APP_KEY = '185639834'                                   # app key
-APP_SECRET = '8c9aa1623e8126dd5eec680f930bda8b'         # app secret
-CALLBACK_URL = 'http://127.0.0.1:8888/callback'         # callback url
+from config import APP_KEY, APP_SECRET, CALLBACK_URL
 
 client = APIClient(SinaWeiboMixin, app_key=APP_KEY, app_secret=APP_SECRET,
                    redirect_uri=CALLBACK_URL)
