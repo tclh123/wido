@@ -54,3 +54,14 @@ def home():
 
     ss = Home.get(owner_access_token, owner_uid, start, limit)
     return jsonify(statuses=ss)
+
+
+@app.route('/friends')
+def bilateral():
+    owner_uid           = request.args.get('owner_uid', 1659177872)
+    owner_access_token  = request.args.get('owner_access_token', '2.007xjRoBZNmGKBf13ad83cd2fVtNOD')
+    start               = int(request.args.get('start', 0))
+    limit               = int(request.args.get('limit', 3))
+
+    ss = Home.get_bi(owner_access_token, owner_uid, start, limit)
+    return jsonify(statuses=ss)

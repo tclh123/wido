@@ -67,3 +67,14 @@ class Home(object):
         statuses = [t for uid in user_ids for t in user_timeline(owner_access_token, uid)]
         make_statuses(statuses)
         return statuses
+
+    @classmethod
+    def get_bi(cls, owner_access_token, owner_uid, start=0, limit=3):
+        """由互粉微博剖出"""
+
+        user_ids = cls.bi_user_ids(owner_access_token, owner_uid)
+        # print len(user_ids), user_ids
+        user_ids = user_ids[start:limit]
+        statuses = [t for uid in user_ids for t in user_timeline(owner_access_token, uid)]
+        make_statuses(statuses)
+        return statuses
