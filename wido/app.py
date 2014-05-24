@@ -24,12 +24,12 @@ app = create_app()
 
 # views
 
-import json
-
 from flask import request, redirect, jsonify
 
 from wido.models.timeline import Timeline
 from wido.models.home import Home
+from wido.models.rec import Rec
+from wido.models.video_url import VideoURL
 
 
 @app.route('/timeline')
@@ -65,3 +65,22 @@ def bilateral():
 
     ss = Home.get_bi(owner_access_token, owner_uid, start, limit)
     return jsonify(statuses=ss)
+
+
+@app.route('/rec')
+def rec():
+    owner_access_token  = request.args.get('owner_access_token', '2.007xjRoBZNmGKBf13ad83cd2fVtNOD')
+    start               = int(request.args.get('start', 0))
+    limit               = int(request.args.get('limit', 3))
+
+    statuses = Rec.get(owner_access_token, start, limit)
+    return jsonify(statuses=statuses)
+
+
+@app.route('/video_url')
+def video_url():
+    owner_access_token  = request.args.get('owner_access_token', '2.007xjRoBZNmGKBf13ad83cd2fVtNOD')
+    urls                = request.args.getlist('urls')
+
+    urls = VideoURL.expand(owner_access_token, urls)
+    return jsonify(urls=urls)
