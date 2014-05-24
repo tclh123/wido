@@ -39,7 +39,7 @@ from wido.models.tag import Tag
 
 @app.route('/timeline')
 def timeline():
-    owner_uid           = request.args.get('owner_uid', 1659177872)
+    owner_uid           = int(request.args.get('owner_uid', 1659177872))
     owner_access_token  = request.args.get('owner_access_token', '2.007xjRoBZNmGKBf13ad83cd2fVtNOD')
     since_id            = request.args.get('since_id', 0)
     max_id              = request.args.get('max_id', 0)
@@ -52,10 +52,13 @@ def timeline():
 
 @app.route('/home')
 def home():
-    owner_uid           = request.args.get('owner_uid', 1659177872)
+    owner_uid           = int(request.args.get('owner_uid', 1659177872))
     owner_access_token  = request.args.get('owner_access_token', '2.007xjRoBZNmGKBf13ad83cd2fVtNOD')
     start               = int(request.args.get('start', 0))
     limit               = int(request.args.get('limit', 3))
+
+    # print owner_uid, type(owner_uid)
+    # print owner_access_token, type(owner_access_token)
 
     ss = Home.get(owner_access_token, owner_uid, start, limit)
     return jsonify(statuses=ss)
@@ -63,7 +66,7 @@ def home():
 
 @app.route('/friends')
 def bilateral():
-    owner_uid           = request.args.get('owner_uid', 1659177872)
+    owner_uid           = int(request.args.get('owner_uid', 1659177872))
     owner_access_token  = request.args.get('owner_access_token', '2.007xjRoBZNmGKBf13ad83cd2fVtNOD')
     start               = int(request.args.get('start', 0))
     limit               = int(request.args.get('limit', 3))
