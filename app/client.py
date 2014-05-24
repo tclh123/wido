@@ -46,9 +46,11 @@ def test_home_timeline():
 
 def test_user_timeline():
     r = client.statuses.user_timeline.get(screen_name='wheam_',
-                                          feature=3)
+                                          feature=3,
+                                          count=1)
     print r
 
 
 if __name__ == '__main__':
-    test_home_timeline()
+    # test_home_timeline()
+    test_user_timeline()

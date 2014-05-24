@@ -20,9 +20,15 @@ expires = r.expires      # token expires time, UNIX timestamp, e.g., 1384826449.
 
 print "access_token: %s\nexpires: %s" % (access_token, expires)
 
+# FIXME: can't store???
+# TODO: auto get_access_token...!!!!
 with open('access_token.bak', 'w') as f:
     f.write("%s\n" % access_token)
     f.write("%s\n" % expires)
 
 # access_token: 2.007xjRoB0s5vYMc99d8b88fePfaoaD
 # expires: 1558585961
+
+
+# 2.007xjRoB4FD2YC43bbb2dda6z7W7KE
+# 1403550002
