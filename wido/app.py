@@ -2,20 +2,24 @@
 
 from flask import Flask
 
+from wido.ext import db
+from wido.config import DATABASE_URI, SQLALCHEMY_DATABASE_URI
+
 # TODO: use SQLAlchemy ?
 
 
 def create_app():
     """Create the app instance."""
     app = Flask(__name__, template_folder="templates")
-    # app.config.from_pyfile("app.cfg")
+
+    app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
 
     # whats that?
     # set the secret key.  keep this really secret:
     app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
     # initialize extensions
-    # db.init_app(app)
+    db.init_app(app)
 
     return app
 
@@ -30,6 +34,7 @@ from wido.models.timeline import Timeline
 from wido.models.home import Home
 from wido.models.rec import Rec
 from wido.models.video_url import VideoURL
+from wido.models.tag import Tag
 
 
 @app.route('/timeline')
@@ -84,3 +89,22 @@ def video_url():
 
     maps = VideoURL.expand(owner_access_token, urls)
     return jsonify(maps=maps)
+
+
+@app.route('/tags')
+def tags():
+    parent = request.args.get('parent', 0)
+
+    tags = Tag.query.filter(Tag.parent_id == parent)
+    return jsonify(tags=[tag.as_dict() for tag in tags])
+
+
+@app.route('/user_with_tag')
+def user_with_tag():
+    tag_id = request.args.get('tag_id', 0)
+
+    tag = Tag.query.get(tag_id)
+    if not tag:
+        return jsonify({})
+    uts = tag.users_with_tag()
+    return jsonify(users=[ut.as_dict() for ut in uts])
