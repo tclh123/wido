@@ -1,5 +1,7 @@
 # coding: utf-8
 
+from wido.lib.text import get_urls_from_text
+
 
 ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
@@ -54,3 +56,23 @@ def mid_encode(num):
     str3 = base62_encode(id3)
 
     return ''.join([str1, str2, str3])
+
+
+def make_statuses(statuses_jsondict):
+    for s in statuses_jsondict:
+        # if s.user.id == owner_uid:
+        #     continue
+
+        # note: urls dedup
+        urls = get_urls_from_text(s.text)
+        if 'retweeted_status' in s:
+            urls_2 = get_urls_from_text(s.retweeted_status.text)
+            urls = list(set(urls) | set(urls_2))
+
+        # http://stackoverflow.com/questions/480214/how-do-you-remove-duplicates-from-a-list-in-python-whilst-preserving-order
+        def f7(seq):
+            seen = set()
+            seen_add = seen.add
+            return [x for x in seq if x not in seen and not seen_add(x)]
+
+        s['video_urls'] = f7(urls)

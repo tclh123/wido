@@ -3,7 +3,8 @@
 from wido.client import client_with_access_token
 from wido.consts import WEIBO_TYPE_VIDEO
 
-from wido.lib.text import get_urls_from_text
+# from wido.lib.text import get_urls_from_text
+from wido.lib.weibo import make_statuses
 
 
 class Timeline(object):
@@ -16,26 +17,50 @@ class Timeline(object):
     def get(cls, owner_uid, owner_access_token,
             since_id=0, max_id=0, count=20, page=1):
         client = client_with_access_token(owner_access_token)
-        r = client.statuses.home_timeline.get(feature=WEIBO_TYPE_VIDEO,
-                                              since_id=since_id,
-                                              max_id=max_id,
-                                              count=count,
-                                              page=page)
-        for s in r.statuses:
-            # if s.user.id == owner_uid:
-            #     continue
 
-            # note: urls dedup
-            urls = get_urls_from_text(s.text)
-            if not urls:
-                urls = get_urls_from_text(s.retweeted_status.text)
+        r = None
+        while not r:
+            try:
+                r = client.statuses.home_timeline.get(feature=WEIBO_TYPE_VIDEO,
+                                                      since_id=since_id,
+                                                      max_id=max_id,
+                                                      count=count,
+                                                      page=page)
+            except Exception as e:
+                print repr(e)
 
-            # http://stackoverflow.com/questions/480214/how-do-you-remove-duplicates-from-a-list-in-python-whilst-preserving-order
-            def f7(seq):
-                seen = set()
-                seen_add = seen.add
-                return [x for x in seq if x not in seen and not seen_add(x)]
-
-            s['video_urls'] = f7(urls)
+        make_statuses(r.statuses)
 
         return cls(owner_uid, owner_access_token, r)
+
+
+def user_timeline(owner_access_token, uid, count=3, hrs_limit=48):
+    c = client_with_access_token(owner_access_token)
+    try:
+        r = c.statuses.user_timeline.get(uid=uid,
+                                         feature=WEIBO_TYPE_VIDEO,
+                                         count=count)
+    except:
+        return []
+
+    # TODO
+    statuses = [s for s in r.statuses if s.created_at]
+    return statuses
+
+
+# FIXME: 批量获取没有权限啊哥哥
+def user_timeline_batch(owner_access_token, uids, count=3, hrs_limit=48):
+    c = client_with_access_token(owner_access_token)
+    try:
+        r = c.statuses.timeline_batch.get(uids=uids,
+                                          feature=WEIBO_TYPE_VIDEO,
+                                          count=count)
+    except Exception as e:
+        print repr(e)
+        return []
+
+    # TODO
+    print r
+    return r
+    statuses = [s for s in r.statuses if s.created_at]
+    return statuses

@@ -29,6 +29,7 @@ import json
 from flask import request, redirect, jsonify
 
 from wido.models.timeline import Timeline
+from wido.models.home import Home
 
 
 @app.route('/timeline')
@@ -42,3 +43,14 @@ def timeline():
     t = Timeline.get(owner_uid, owner_access_token,
                      since_id, max_id, count, page)
     return jsonify(**t.r)
+
+
+@app.route('/home')
+def home():
+    owner_uid           = request.args.get('owner_uid', 1659177872)
+    owner_access_token  = request.args.get('owner_access_token', '2.007xjRoBZNmGKBf13ad83cd2fVtNOD')
+    start               = int(request.args.get('start', 0))
+    limit               = int(request.args.get('limit', 3))
+
+    ss = Home.get(owner_access_token, owner_uid, start, limit)
+    return jsonify(statuses=ss)
