@@ -22,6 +22,23 @@ def create_app():
 app = create_app()
 
 
+# views
+
+import json
+
+from flask import request, redirect, jsonify
+
+from wido.models.timeline import Timeline
+
+
 @app.route('/timeline')
 def timeline():
-    return r
+    owner_uid           = request.args.get('owner_uid', 1659177872)
+    owner_access_token  = request.args.get('owner_access_token', '2.007xjRoBZNmGKBf13ad83cd2fVtNOD')
+    since_id            = request.args.get('since_id', 0)
+    max_id              = request.args.get('max_id', 0)
+    count               = request.args.get('count', 20)
+    page                = request.args.get('page', 1)
+    t = Timeline.get(owner_uid, owner_access_token,
+                     since_id, max_id, count, page)
+    return jsonify(**t.r)

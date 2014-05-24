@@ -4,7 +4,7 @@ import os
 from snspy import APIClient
 from snspy import SinaWeiboMixin
 
-from config import APP_KEY, APP_SECRET, CALLBACK_URL
+from wido.config import APP_KEY, APP_SECRET, CALLBACK_URL
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -21,10 +21,15 @@ def get_access_token():
 
 access_token, expires = get_access_token()
 
-client = APIClient(SinaWeiboMixin,
-                   app_key=APP_KEY, app_secret=APP_SECRET,
-                   redirect_uri=CALLBACK_URL,
-                   access_token=access_token, expires=expires)
+
+def client_with_access_token(a):
+    c = APIClient(SinaWeiboMixin,
+                  app_key=APP_KEY, app_secret=APP_SECRET,
+                  redirect_uri=CALLBACK_URL,
+                  access_token=a, expires=expires)
+    return c
+
+client = client_with_access_token(access_token)
 
 
 def test_home_timeline():
