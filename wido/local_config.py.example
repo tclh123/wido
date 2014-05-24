@@ -13,3 +13,5 @@ db_params = {
     'db': 'widodb'
 }
 SQLALCHEMY_DATABASE_URI = DATABASE_URI.format(**db_params)
+
+APP_PORT = 8887
