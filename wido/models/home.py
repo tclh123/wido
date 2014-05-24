@@ -61,7 +61,7 @@ class Home(object):
         """由大V微博剖出"""
 
         user_ids = cls.big_v_user_ids(owner_access_token, owner_uid)
-        print len(user_ids), user_ids
+        # print len(user_ids), user_ids
         user_ids = user_ids[start:limit]
         # return user_timeline_batch(owner_access_token, user_ids)
         statuses = [t for uid in user_ids for t in user_timeline(owner_access_token, uid)]
