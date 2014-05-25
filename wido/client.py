@@ -65,7 +65,13 @@ def test_by_status():
     print r
 
 
+def test_short():
+    r = client.short_url.expand.get(url_short=['http://t.cn/RvZTqbR', 'http://t.cn/RvUIY6K'])
+    print r
+
+
 if __name__ == '__main__':
     # test_home_timeline()
     # test_user_timeline()
-    test_by_status()
+    # test_by_status()
+    test_short()
