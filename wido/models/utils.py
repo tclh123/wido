@@ -13,7 +13,6 @@ def f7(seq):
 
 
 def make_statuses(owner_access_token, statuses_jsondict, is_expand=False):
-    print 'in'
     all_urls = []
     for s in statuses_jsondict:
         urls = get_urls_from_text(s.text)
@@ -40,5 +39,3 @@ def make_statuses(owner_access_token, statuses_jsondict, is_expand=False):
             urls = [maps['real_url'][url] for url in urls if url in maps]
 
         s['video_urls'] = urls
-
-    print 'out'

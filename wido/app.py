@@ -39,6 +39,8 @@ from wido.models.tag import Tag
 
 @app.route('/timeline')
 def timeline():
+    print '/timeline'
+
     owner_uid           = int(request.args.get('owner_uid', 1659177872))
     owner_access_token  = request.args.get('owner_access_token', '2.007xjRoBZNmGKBf13ad83cd2fVtNOD')
     since_id            = request.args.get('since_id', 0)
@@ -52,13 +54,12 @@ def timeline():
 
 @app.route('/home')
 def home():
+    print '/home'
+
     owner_uid           = int(request.args.get('owner_uid', 1659177872))
     owner_access_token  = request.args.get('owner_access_token', '2.007xjRoBZNmGKBf13ad83cd2fVtNOD')
     start               = int(request.args.get('start', 0))
     limit               = int(request.args.get('limit', 3))
-
-    # print owner_uid, type(owner_uid)
-    # print owner_access_token, type(owner_access_token)
 
     ss = Home.get(owner_access_token, owner_uid, start, limit)
     return jsonify(statuses=ss)
@@ -66,6 +67,8 @@ def home():
 
 @app.route('/friends')
 def bilateral():
+    print '/friends'
+
     owner_uid           = int(request.args.get('owner_uid', 1659177872))
     owner_access_token  = request.args.get('owner_access_token', '2.007xjRoBZNmGKBf13ad83cd2fVtNOD')
     start               = int(request.args.get('start', 0))
@@ -77,6 +80,8 @@ def bilateral():
 
 @app.route('/rec')
 def rec():
+    print '/rec'
+
     owner_access_token  = request.args.get('owner_access_token', '2.007xjRoBZNmGKBf13ad83cd2fVtNOD')
     start               = int(request.args.get('start', 0))
     limit               = int(request.args.get('limit', 3))
@@ -87,6 +92,8 @@ def rec():
 
 @app.route('/video_url')
 def video_url():
+    print '/video_url'
+
     owner_access_token  = request.args.get('owner_access_token', '2.007xjRoBZNmGKBf13ad83cd2fVtNOD')
     urls                = request.args.getlist('urls')
 
@@ -96,6 +103,8 @@ def video_url():
 
 @app.route('/tags')
 def tags():
+    print '/tags'
+
     parent = request.args.get('parent', 0)
 
     tags = Tag.query.filter(Tag.parent_id == parent)
@@ -104,6 +113,8 @@ def tags():
 
 @app.route('/user_with_tag')
 def user_with_tag():
+    print '/user_with_tag'
+
     tag_id = request.args.get('tag_id', 0)
 
     tag = Tag.query.get(tag_id)
