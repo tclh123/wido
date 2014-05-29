@@ -1,8 +1,8 @@
 # coding: utf-8
 
-APP_KEY = ''            # app key
-APP_SECRET = ''         # app secret
-CALLBACK_URL = ''       # callback url
+# APP_KEY = ''            # app key
+# APP_SECRET = ''         # app secret
+# CALLBACK_URL = ''       # callback url
 
 # configure SQLAlchemy
 DATABASE_URI = "mysql://{user}:{passwd}@{host}/{db}"
